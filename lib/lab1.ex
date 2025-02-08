@@ -53,7 +53,7 @@ defmodule Lab1 do
     linear = linear_sum / Enum.count(results)
     parallel = parallel_sum / Enum.count(results)
 
-    diff = trunc((linear - parallel))
-    IO.puts("single threaded > parallel in: #{diff} ns")
+    diff = trunc(linear - parallel)
+    IO.puts("parallel > single threaded in: #{diff} ns")
   end
 end
