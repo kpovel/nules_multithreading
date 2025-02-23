@@ -4,6 +4,6 @@ defmodule TaskTimer do
     task_fun.()
     end_time = System.monotonic_time()
 
-    end_time - start_time
+    trunc((end_time - start_time) / 1_000_000)
   end
 end
