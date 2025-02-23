@@ -14,9 +14,7 @@ defmodule Lab5 do
     matrix = Eigenvalue.random_matrix(5_000)
 
     TaskTimer.timer(fn ->
-      TaskTimer.timer(fn ->
-        {_eigenvector, _eigenvalue} = Eigenvalue.power_iteration(matrix)
-      end)
+      {_eigenvector, _eigenvalue} = Eigenvalue.power_iteration(matrix)
     end)
   end
 end

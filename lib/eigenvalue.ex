@@ -3,15 +3,18 @@ defmodule Eigenvalue do
     n = length(matrix)
     x = Enum.map(1..n, fn _ -> :rand.uniform() end) |> normalize()
 
-    Enum.reduce_while(1..iterations, {x, 0}, fn _, {x_k, eigenvalue_k} ->
-      x_k1 = matrix_vector_multiply(matrix, x_k) |> normalize()
-      eigenvalue_k1 = dot_product(x_k1, matrix_vector_multiply(matrix, x_k1))
+    {_eigenvector, value} =
+      Enum.reduce_while(1..iterations, {x, 0}, fn _, {x_k, eigenvalue_k} ->
+        x_k1 = matrix_vector_multiply(matrix, x_k) |> normalize()
+        eigenvalue_k1 = dot_product(x_k1, matrix_vector_multiply(matrix, x_k1))
 
-      case abs(eigenvalue_k1 - eigenvalue_k) do
-        value when value < tolerance -> {:halt, {x_k1, eigenvalue_k1}}
-        _ -> {:cont, {x_k1, eigenvalue_k1}}
-      end
-    end)
+        case abs(eigenvalue_k1 - eigenvalue_k) do
+          value when value < tolerance -> {:halt, {x_k1, eigenvalue_k1}}
+          _ -> {:cont, {x_k1, eigenvalue_k1}}
+        end
+      end)
+
+    value
   end
 
   def matrix_vector_multiply(matrix, vector) do
@@ -42,10 +45,3 @@ defmodule Eigenvalue do
     end)
   end
 end
-
-# Приклад використання
-# matrix = Eigenvalue.random_matrix(5)
-# {eigenvector, eigenvalue} = Eigenvalue.power_iteration(matrix)
-
-# IO.puts("Найбільше власне значення: #{eigenvalue}")
-# IO.puts("Відповідний власний вектор: #{eigenvector}")
